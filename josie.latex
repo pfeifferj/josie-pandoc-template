@@ -1,0 +1,131 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+$if(colorlinks)$
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+$endif$
+$if(CJKmainfont)$
+\PassOptionsToPackage{space}{xeCJK}
+$endif$
+%
+\documentclass[
+$if(fontsize)$
+  $fontsize$,
+$endif$
+$if(papersize)$
+  $papersize$paper,
+$endif$
+$if(babel-lang)$
+  $babel-lang$,
+$endif$
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{$documentclass$}
+
+% Allow the use of @ in command names
+\makeatletter
+
+% Define new commands for institution, department, class, and subtitle
+\newcommand{\institution}[1]{\gdef\institution{#1}}
+\newcommand{\department}[1]{\gdef\department{#1}}
+\newcommand{\class}[1]{\gdef\class{#1}}
+\newcommand{\subtitle}[1]{\gdef\subtitle{#1}}
+
+% Redefine the maketitle command to include institution, department, class, and subtitle
+\renewcommand{\maketitle}{
+  \begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\huge \@title \par}
+    $if(subtitle)$
+      \vspace{0.5cm}
+      {\Large \subtitle \par}
+    $endif$
+    \vspace{1.5cm}
+    {\Large \@author \par}
+    \vspace{1.5cm}
+    {\large \institution \par}
+    {\large \department \par}
+    {\large \class \par}
+    \vspace{1.5cm}
+    {\large \@date \par}
+    \vfill
+  \end{titlepage}
+}
+
+% Revert the @ back to its normal category code
+\makeatother
+
+$if(fontfamily)$
+\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+$endif$
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+$if(babel-lang)$
+\usepackage[main=$babel-lang$]{babel}
+$endif$
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$if(title)$
+  \title{$title$}
+$endif$
+$if(subtitle)$
+  \subtitle{$subtitle$}
+$endif$
+$if(author)$
+  \author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+$if(date)$
+  \date{$date$}
+$else$
+  \date{\today}
+$endif$
+
+\begin{document}
+
+% Set the institution, department, and class
+$if(institution)$
+  \institution{$institution$}
+$endif$
+$if(department)$
+  \department{$department$}
+$endif$
+$if(class)$
+  \class{$class$}
+$endif$
+
+% This is where the title will be typeset
+\maketitle
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$if(keyword)$
+\renewcommand\keywordname{Keywords}
+\begin{keyword}
+$for(keyword)$
+$keyword$ \sep
+$endfor$
+\end{keyword}
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+$if(toc)$
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+
+\end{document}
